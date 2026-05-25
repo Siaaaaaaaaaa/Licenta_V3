@@ -21,7 +21,7 @@ def load_models():
 try:
     clf, regressor_log, top_genres = load_models()
 except FileNotFoundError:
-    st.error("❌ Nu s-au găsit fișierele .pkl! Asigură-te că ai rulat scriptul de analiză și că fișierele sunt în același folder cu app.py.")
+    st.error(" Nu s-au găsit fișierele .pkl! Asigură-te că ai rulat scriptul de analiză și că fișierele sunt în același folder cu app.py.")
     st.stop()
 
 # Dicționarul de mapare pentru interpretarea clusterelor
@@ -32,13 +32,13 @@ cluster_map = {
 }
 
 # 3. Interfața Grafică (Design-ul Site-ului)
-st.title("🎬 Simulator Economic pentru Industria Cinematografică")
+st.title("Simulator Economic pentru Industria Cinematografică")
 st.markdown("---")
 st.write("Introdu datele de producție ale unui film nou pentru a evalua profilul său de succes și încasările estimate.")
 
 # Formular pentru inputurile utilizatorului
 with st.form("movie_form"):
-    st.subheader("📊 Parametri de Intrare")
+    st.subheader("Parametri de Intrare")
     
     # Inputuri numerice
     budget = st.number_input("Buget de Producție (USD):", min_value=1000, value=50000000, step=500000)
@@ -59,38 +59,36 @@ if submit_button:
     X_new = [budget, runtime] + genre_features
     X_new_array = np.array([X_new])
     
-    # --- PASUL A: CLASIFICAREA (Tipologia de succes) ---
     # Calculăm probabilitățile pentru fiecare clasă în parte
     probabilitati = clf.predict_proba(X_new_array)[0]
     predicted_cluster = clf.predict(X_new_array)[0]
     tipologie_estimata = cluster_map[predicted_cluster]
     
-    # --- PASUL B: REGRESIA LOGARITMATĂ (Încasările în USD) ---
     pred_log_revenue = regressor_log.predict(X_new_array)[0]
     # Aplicăm expm1 pentru a anula transformarea log1p
     pred_real_revenue = np.expm1(pred_log_revenue)
     
     # 5. Afișarea Rezultatelor în Interfață
     st.markdown("---")
-    st.header("🎯 Rezultatele Simulării")
+    st.header("Rezultatele Simulării")
     
     # Afișare Categorie Estimator
     if predicted_cluster == 2:
-        st.success(f"🏆 **Profil Estimat:** {tipologie_estimata}")
+        st.success(f" **Profil Estimat:** {tipologie_estimata}")
     elif predicted_cluster == 0:
-        st.info(f"📈 **Profil Estimat:** {tipologie_estimata}")
+        st.info(f" **Profil Estimat:** {tipologie_estimata}")
     else:
-        st.warning(f"🎥 **Profil Estimat:** {tipologie_estimata}")
+        st.warning(f" **Profil Estimat:** {tipologie_estimata}")
         
     # Afișare Venituri Estimate din Regresie
     st.metric(
-        label="💰 Încasări Estimate (Venit Global)", 
+        label="Încasări Estimate", 
         value=f"${pred_real_revenue:,.2f} USD",
         help="Valoare calculată prin modelul Random Forest Regressor aplicat pe scară logaritmică."
     )
     
     # Afișare Probabilități pe fiecare Cluster (Analiza de Risc)
-    st.subheader("📊 Distribuția Probabilităților de Succes")
+    st.subheader(" Distribuția Probabilităților de Succes")
     
     # Creăm un DataFrame mic pentru un grafic Streamlit curat
     prob_data = pd.DataFrame({
@@ -102,8 +100,8 @@ if submit_button:
     st.bar_chart(data=prob_data, x='Tipologie', y='Probabilitate (%)', color="#2ca02c" if predicted_cluster==2 else "#1f77b4")
     
     # Text explicativ academic pentru licență
-    st.caption(
-        "Notă academică: Clasificarea folosește un model Random Forest antrenat istoric (acuratețe 95%). "
-        "Regresia logistic-transformată capturează tendința generală a încasărilor (R² = 0.43), restul variabilității "
-        "fiind atribuită factorilor de artă cinematografică și marketing."
-    )
+   # st.caption(
+    #    "Notă academică: Clasificarea folosește un model Random Forest antrenat istoric (acuratețe 95%). "
+     #   "Regresia logistic-transformată capturează tendința generală a încasărilor (R² = 0.43), restul variabilității "
+      #  "fiind atribuită factorilor de artă cinematografică și marketing."
+    #)
