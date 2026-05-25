@@ -1,0 +1,36 @@
+Afișăm datele inițiale: 
+    adult                              belongs_to_collection  ... vote_average vote_count
+0  False  {'id': 10194, 'name': 'Toy Story Collection', ...  ...          7.7     5415.0
+1  False                                                NaN  ...          6.9     2413.0
+2  False  {'id': 119050, 'name': 'Grumpy Old Men Collect...  ...          6.5       92.0
+3  False                                                NaN  ...          6.1       34.0
+4  False  {'id': 96871, 'name': 'Father of the Bride Col...  ...          5.7      173.0
+
+[5 rows x 24 columns]
+
+Mediile pe fiecare cluster:
+               budget       revenue  popularity   vote_count
+cluster                                                     
+0        1.141805e+08  4.388755e+08   18.740073  3313.952830
+1        2.161304e+07  4.935475e+07    8.123364   428.198386
+2        1.369412e+08  8.715853e+08  199.698252  6720.647059
+
+Mapare tipologii: {2: 'Top Blockbustere (Impact Mare)', 0: 'Succes Comercial de Nivel Mediu', 1: 'Filme Independente & de Buget Mic'}
+
+Rezultate etapa clasificare:
+Acuratețe Generală: 0.95
+Raport Detaliat:
+                                   precision    recall  f1-score   support
+
+  Succes Comercial de Nivel Mediu       0.75      0.63      0.68        89
+Filme Independente & de Buget Mic       0.97      0.98      0.97       985
+   Top Blockbustere (Impact Mare)       0.00      0.00      0.00         3
+
+                         accuracy                           0.95      1077
+                        macro avg       0.57      0.54      0.55      1077
+                     weighted avg       0.94      0.95      0.95      1077
+
+
+R-squared (Scor R2): 0.43
+Eroarea Medie Absolută: 52,455,743.96 USD
+Eroarea Patratica: 104,945,981.10 USD
