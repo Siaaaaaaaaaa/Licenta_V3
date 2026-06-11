@@ -162,7 +162,7 @@ for genre in top_genres:
 
 #  Nu includem 'revenue' sau 'vote_count' aici, pentru că acelea sunt rezultate, 
 # iar noi vrem să prezicem succesul ÎNAINTE ca filmul să apară.
-X = df_plot[['budget', 'runtime'] + [f'genre_{genre}' for genre in top_genres]].fillna(0)
+X = df_plot[['budget', 'runtime', 'popularity'] + [f'genre_{genre}' for genre in top_genres]].fillna(0)
 y = df_plot['cluster']    
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)

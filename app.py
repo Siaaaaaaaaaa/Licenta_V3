@@ -32,7 +32,7 @@ cluster_map = {
 }
 
 # 3. Interfața Grafică (Design-ul Site-ului)
-st.title("Simulator Economic pentru Industria Cinematografică")
+st.title("Simulator pentru Industria Cinematografică")
 st.markdown("---")
 st.write("Introdu datele de producție ale unui film nou pentru a evalua profilul său de succes și încasările estimate.")
 
@@ -43,20 +43,22 @@ with st.form("movie_form"):
     # Inputuri numerice
     budget = st.number_input("Buget de Producție (USD):", min_value=1000, value=50000000, step=500000)
     runtime = st.number_input("Durata Filmului (minute):", min_value=1, value=120, step=5)
-    
+    popularity = st.number_input("Popularitate Estimată:", min_value=0.0, value=10.0, step=0.5)
+
+
     # Selectarea genurilor cinematografice (Multi-select)
     st.markdown("**Genuri (Alege una sau mai multe opțiuni):**")
     selected_genres = st.multiselect("Selectează genurile care se aplică:", top_genres)
     
     # Butonul de trimitere
-    submit_button = st.form_submit_button(label="🔮 Generează Predicția de Succes")
+    submit_button = st.form_submit_button(label="Generează Predicția")
 
 # 4. Logica de Predicție (când utilizatorul apasă pe buton)
 if submit_button:
     # Pregătim vectorul de caracteristici (X_new) exact în ordinea din antrenare
     # [budget, runtime, genre_Drama, genre_Comedy...]
     genre_features = [1 if genre in selected_genres else 0 for genre in top_genres]
-    X_new = [budget, runtime] + genre_features
+    X_new = [budget, runtime, popularity] + genre_features
     X_new_array = np.array([X_new])
     
     # Calculăm probabilitățile pentru fiecare clasă în parte
